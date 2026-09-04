@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Health Care Logistics - First Call</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+ --bg:#f6f7f9; --surface:#ffffff; --surface2:#f1f3f6; --line:#e3e7ec;
+ --text:#16181d; --text2:#5b6270; --text3:#8b94a3;
+ --accent:#4f46e5; --shadow:0 1px 2px rgba(16,20,30,.05),0 8px 24px rgba(16,20,30,.06);
+ --navw:268px;
+}
+:root[data-theme="dark"]{
+ --bg:#0e1014; --surface:#171a20; --surface2:#1e222a; --line:#282d37;
+ --text:#eef1f5; --text2:#a3acbb; --text3:#6f7887;
+ --accent:#8b83ff; --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);
+}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--text);
+ font:400 16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+ -webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+/* ---- top bar ---- */
+.top{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:10px;
+ padding:10px 14px;background:color-mix(in srgb,var(--bg) 88%,transparent);
+ backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--line)}
+.iconbtn{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;color:var(--text2)}
+.iconbtn:hover{background:var(--surface2);color:var(--text)}
+.iconbtn svg{width:22px;height:22px}
+.top .where{flex:1;min-width:0;font-size:14px;font-weight:500;color:var(--text2);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ---- side nav ---- */
+.scrim{position:fixed;inset:0;background:rgba(8,10,14,.45);opacity:0;pointer-events:none;
+ transition:opacity .2s;z-index:70}
+body.nav-open .scrim{opacity:1;pointer-events:auto}
+.nav{position:fixed;top:0;left:0;bottom:0;width:var(--navw);z-index:80;background:var(--surface);
+ border-right:1px solid var(--line);transform:translateX(-100%);transition:transform .22s ease;
+ overflow-y:auto;padding:10px 12px 40px}
+body.nav-open .nav{transform:none}
+.nav h4{margin:18px 8px 8px;font-size:11px;font-weight:600;letter-spacing:.09em;
+ text-transform:uppercase;color:var(--text3)}
+.navlink{display:flex;align-items:center;gap:11px;padding:12px 12px;border-radius:12px;
+ font-size:15px;color:var(--text2);min-height:48px}
+.navlink svg{width:19px;height:19px;flex:none}
+.navlink:hover{background:var(--surface2);color:var(--text)}
+.navlink.on{background:var(--surface2);color:var(--text);font-weight:600}
+.navdot{width:9px;height:9px;border-radius:50%;flex:none}
+.navtop{display:flex;align-items:center;justify-content:space-between;padding:4px 4px 6px}
+.navtop b{font-size:14px;font-weight:600;padding-left:8px}
+
+/* ---- layout ---- */
+.wrap{max-width:860px;margin:0 auto;padding:22px 16px 90px}
+.eyebrow{font-size:14px;color:var(--text2);font-weight:400}
+h1{margin:2px 0 0;font-size:26px;line-height:1.2;font-weight:600;letter-spacing:-.01em}
+.meta{margin-top:8px;font-size:14px;color:var(--text2)}
+.meta div+div{margin-top:2px}
+.meta .soft{color:var(--text3);font-size:13px}
+
+/* ---- filter chips ---- */
+.chips{display:flex;flex-wrap:nowrap;gap:8px;margin:12px 0 0;overflow-x:auto;
+ scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;white-space:nowrap;padding:9px 14px;border-radius:999px;font-size:14px;font-weight:500;
+ color:var(--text2);background:var(--surface);border:1px solid var(--line);min-height:40px;
+ display:flex;align-items:center;gap:7px}
+.chip:hover{color:var(--text)}
+.chip.on{color:#fff;border-color:transparent;background:var(--accent)}
+.chip .dot{width:9px;height:9px;border-radius:50%}
+.chip.on .dot{background:#fff !important}
+.srch{width:100%;margin-top:14px;padding:14px 16px;border-radius:14px;border:1px solid var(--line);
+ background:var(--surface);color:var(--text);font-size:16px}
+.srch::placeholder{color:var(--text3)}
+.srch:focus{outline:2px solid color-mix(in srgb,var(--accent) 45%,transparent);outline-offset:1px}
+
+/* ---- section (collapsible) ---- */
+.sec{margin-top:26px;scroll-margin-top:86px}
+.sechead{width:100%;display:flex;align-items:center;gap:12px;padding:16px 18px;border-radius:16px;
+ color:#fff;font-size:17px;font-weight:600;text-align:left;box-shadow:var(--shadow)}
+.sechead .lab{flex:1;min-width:0}
+.sechead .n{font-size:13px;font-weight:500;opacity:.85}
+.sechead svg{width:20px;height:20px;transition:transform .18s;opacity:.9}
+.sec.open .sechead svg{transform:rotate(90deg)}
+.secbody{display:none;padding-top:12px}
+.sec.open .secbody{display:block}
+.note{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px 17px;
+ font-size:14.5px;color:var(--text2);line-height:1.6;margin-bottom:12px}
+
+/* ---- call tiles ---- */
+.tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:16px;
+ padding:16px 18px;margin-bottom:10px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.tile::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--tc,var(--line))}
+.tile.pending{opacity:.62;box-shadow:none}
+a.tile:hover{border-color:color-mix(in srgb,var(--tc) 45%,var(--line))}
+.tile .co{font-size:19px;font-weight:600;letter-spacing:-.01em;padding-right:26px}
+.tile .who{font-size:15px;color:var(--text2);margin-top:3px}
+.tile .dt{font-size:13px;color:var(--text3);margin-top:2px}
+.tile .arc{font-size:12.5px;color:var(--text3);margin-top:1px}
+.tile .ct{font-size:13px;font-weight:600;margin-top:7px;color:var(--tc)}
+.tile .cat{font-size:12.5px;color:var(--text3);margin-top:1px}
+.tile .go{position:absolute;right:14px;top:16px;color:var(--text3)}
+.tile .go svg{width:20px;height:20px}
+.tile .pend{position:absolute;right:14px;top:17px;color:var(--text3)}
+.tile .pend svg{width:17px;height:17px}
+
+/* ---- player ---- */
+.player{position:sticky;top:64px;z-index:50;background:var(--surface);border:1px solid var(--line);
+ border-radius:18px;padding:14px 15px 12px;box-shadow:var(--shadow);margin-top:18px}
+audio{width:100%;height:38px;display:block}
+.pctl{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+.pbtn{display:flex;align-items:center;gap:6px;padding:10px 13px;border-radius:12px;background:var(--surface2);
+ font-size:14px;font-weight:600;color:var(--text2);min-height:42px}
+.pbtn:hover{color:var(--text)}
+.pbtn svg{width:18px;height:18px}
+.ptime{margin-left:auto;font-size:14px;color:var(--text3);
+ font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+.strip{position:relative;height:34px;margin-top:12px;border-radius:9px;background:var(--surface2);
+ cursor:pointer;overflow:hidden}
+.strip .mk{position:absolute;top:5px;bottom:5px;width:3px;border-radius:2px;opacity:.85}
+.strip .ph{position:absolute;top:0;bottom:0;width:2px;background:var(--text);opacity:.55}
+.strip .el{position:absolute;top:0;bottom:0;left:0;background:color-mix(in srgb,var(--text) 8%,transparent)}
+
+/* ---- milestone rows ---- */
+.row{width:100%;display:flex;gap:13px;align-items:flex-start;text-align:left;padding:14px 15px;
+ border-radius:14px;background:var(--surface);border:1px solid var(--line);margin-bottom:8px;
+ min-height:56px;transition:border-color .15s,background .15s}
+.row:hover{border-color:color-mix(in srgb,var(--rc) 45%,var(--line))}
+.row.now{border-color:var(--rc);background:color-mix(in srgb,var(--rc) 9%,var(--surface))}
+.row .t{flex:none;font-size:13.5px;font-weight:700;color:var(--rc);padding-top:2px;min-width:52px;
+ font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+.row .x{flex:1;min-width:0;font-size:15.5px;line-height:1.5}
+.row .qt{display:block}
+.row .qt.q{font-style:italic}
+.row .qt.q::before{content:"\201C"} .row .qt.q::after{content:"\201D"}
+.row .src{display:block;font-size:12.5px;color:var(--text3);margin-top:5px;font-style:normal}
+
+/* ---- misc ---- */
+.empty{padding:26px 4px;color:var(--text3);font-size:15px}
+
+/* ---- hub chooser ---- */
+.choose{display:flex;flex-direction:column;gap:14px;margin-top:22px}
+.pick{display:flex;flex-direction:column;justify-content:flex-end;min-height:240px;
+ border-radius:22px;padding:24px;color:#fff;text-align:left}
+.pick .sm{font-size:15px;font-weight:400;opacity:.85}
+.pick .bg{font-size:32px;font-weight:600;letter-spacing:-.02em;line-height:1.12;margin-top:4px}
+@media(min-width:700px){.pick{min-height:300px}.pick .bg{font-size:38px}}
+.toolbar{display:flex;gap:8px;margin-top:14px}
+.toolbar .pbtn{flex:1;justify-content:center}
+
+@media(min-width:1080px){
+ body{padding-left:0}
+ .nav{transform:none;box-shadow:none}
+ .scrim{display:none}
+ .top,.wrap{margin-left:var(--navw)}
+ body.nav-collapsed .nav{transform:translateX(-100%)}
+ body.nav-collapsed .top,body.nav-collapsed .wrap{margin-left:0}
+ .wrap{max-width:860px;margin-right:auto}
+ h1{font-size:29px}
+}
+</style>
+<script>var ICN={"sun": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4\"/></svg>", "moon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z\"/></svg>"};
+(function(){
+ var R=document.documentElement, K='es_theme', N='es_nav';
+ function get(k){try{return localStorage.getItem(k)}catch(e){return null}}
+ function set(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+ R.setAttribute('data-theme', get(K)==='dark'?'dark':'light');
+ document.addEventListener('DOMContentLoaded',function(){
+  var b=document.body;
+  if(get(N)==='closed') b.classList.add('nav-collapsed');
+  function sync(){
+   var d=R.getAttribute('data-theme')==='dark';
+   document.querySelectorAll('[data-themeicon]').forEach(function(el){el.innerHTML=d?ICN.sun:ICN.moon});
+  }
+  sync();
+  document.querySelectorAll('[data-theme-toggle]').forEach(function(el){
+   el.addEventListener('click',function(){
+    var d=R.getAttribute('data-theme')==='dark';
+    R.setAttribute('data-theme',d?'light':'dark'); set(K,d?'light':'dark'); sync();
+   });
+  });
+  function wide(){return window.matchMedia('(min-width:1080px)').matches}
+  document.querySelectorAll('[data-nav-toggle]').forEach(function(el){
+   el.addEventListener('click',function(){
+    if(wide()){ b.classList.toggle('nav-collapsed'); set(N, b.classList.contains('nav-collapsed')?'closed':'open'); }
+    else { b.classList.toggle('nav-open'); }
+   });
+  });
+  var s=document.querySelector('.scrim'); if(s) s.addEventListener('click',function(){b.classList.remove('nav-open')});
+  document.querySelectorAll('.nav a').forEach(function(a){
+   a.addEventListener('click',function(){ if(!wide()) b.classList.remove('nav-open'); });
+  });
+  document.querySelectorAll('[data-sec]').forEach(function(sec){
+   var h=sec.querySelector('.sechead');
+   if(h) h.addEventListener('click',function(){sec.classList.toggle('open')});
+  });
+ });
+})();
+</script>
+</head><body>
+<div class="scrim"></div>
+<nav class="nav">
+ <div class="navtop"><b>Sales Call Library</b>
+  <button class="iconbtn" data-nav-toggle aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+ <h4>Library</h4>
+<a class="navlink" href="../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>All calls</a>
+<a class="navlink" href="../index.html#milestones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>Milestones</a>
+<h4>This call</h4>
+<a class="navlink" href="#up-front-contract"><span class="navdot" style="background:#4f46e5"></span>Up-Front Contract</a>
+<a class="navlink" href="#pain-problem"><span class="navdot" style="background:#e11d48"></span>Pain: What&#x27;s the Problem</a>
+<a class="navlink" href="#pain-why"><span class="navdot" style="background:#ea580c"></span>Pain: Why It Matters</a>
+<a class="navlink" href="#pain-impact"><span class="navdot" style="background:#d97706"></span>Pain: Impact</a>
+<a class="navlink" href="#pain-commitment"><span class="navdot" style="background:#db2777"></span>Pain: Commitment to Fixing It</a>
+<a class="navlink" href="#decision-process"><span class="navdot" style="background:#2563eb"></span>Decision Process</a>
+<a class="navlink" href="#decision-criteria"><span class="navdot" style="background:#0891b2"></span>Decision Criteria</a>
+<a class="navlink" href="#budget"><span class="navdot" style="background:#059669"></span>Budget / Money Conversation</a>
+<a class="navlink" href="#next-step"><span class="navdot" style="background:#7c3aed"></span>Clear Next Step</a>
+<a class="navlink" href="#ufc-next"><span class="navdot" style="background:#475569"></span>Up-Front Contract for Next Meeting</a>
+</nav>
+<header class="top">
+ <button class="iconbtn" data-nav-toggle aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+ <div class="where">Health Care Logistics — First Call</div>
+ <button class="iconbtn" data-theme-toggle aria-label="Light or dark"><span data-themeicon></span></button>
+</header>
+<main class="wrap">
+<style>.sec{scroll-margin-top:244px}.row{scroll-margin-top:250px}</style>
+<div class="eyebrow">Health Care Logistics</div><h1>First Call</h1>
+<div class="meta">
+<div>Todd Hole</div>
+<div class="soft">2025-08-21</div>
+<div class="soft">FTC</div>
+<div class="soft">1 of 3</div>
+</div>
+<div class="player">
+<audio id="a" preload="metadata" controls src="../audio/health-care-logistics-2025-08-21.mp3"></audio>
+<div class="pctl"><button class="pbtn" id="b15"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5V2L7 6l5 4V7a6 6 0 1 1-6 6"/></svg>15</button><button class="pbtn" id="f15"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5V2l5 4-5 4V7a6 6 0 1 0 6 6"/></svg>15</button><button class="pbtn" id="spd">1x</button><span class="ptime" id="tm">0:00</span></div>
+<div class="strip" id="strip"><div class="el" id="el"></div><div class="ph" id="ph"></div></div>
+</div>
+<div class="chips" id="msf">
+<button class="chip" data-msf="up-front-contract"><span class="dot" style="background:#4f46e5"></span>Up-Front Contract</button>
+<button class="chip" data-msf="pain-problem"><span class="dot" style="background:#e11d48"></span>Pain: What&#x27;s the Problem</button>
+<button class="chip" data-msf="pain-why"><span class="dot" style="background:#ea580c"></span>Pain: Why It Matters</button>
+<button class="chip" data-msf="pain-impact"><span class="dot" style="background:#d97706"></span>Pain: Impact</button>
+<button class="chip" data-msf="pain-commitment"><span class="dot" style="background:#db2777"></span>Pain: Commitment to Fixing It</button>
+<button class="chip" data-msf="decision-process"><span class="dot" style="background:#2563eb"></span>Decision Process</button>
+<button class="chip" data-msf="decision-criteria"><span class="dot" style="background:#0891b2"></span>Decision Criteria</button>
+<button class="chip" data-msf="budget"><span class="dot" style="background:#059669"></span>Budget / Money Conversation</button>
+<button class="chip" data-msf="next-step"><span class="dot" style="background:#7c3aed"></span>Clear Next Step</button>
+<button class="chip" data-msf="ufc-next"><span class="dot" style="background:#475569"></span>Up-Front Contract for Next Meeting</button>
+</div>
+<div class="toolbar"><button class="pbtn" id="openall">Expand all</button><button class="pbtn" id="closeall">Collapse all</button></div>
+<div class="sec open" data-sec data-msg="up-front-contract" id="up-front-contract">
+<button class="sechead" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);box-shadow:0 8px 24px color-mix(in srgb,#4f46e5 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Up-Front Contract</span></button>
+<div class="secbody">
+<button class="row" style="--rc:#4f46e5" data-t="71"><span class="t">1:11</span><span class="x"><span class="qt q">We&#x27;re on the calendar for 45 minutes. What&#x27;s most important for you guys to walk away with?</span></span></button>
+</div></div>
+<div class="sec open" data-sec data-msg="pain-problem" id="pain-problem">
+<button class="sechead" style="background:linear-gradient(135deg,#e11d48,#f43f5e);box-shadow:0 8px 24px color-mix(in srgb,#e11d48 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Pain: What&#x27;s the Problem</span></button>
+<div class="secbody">
+<button class="row" style="--rc:#e11d48" data-t="763"><span class="t">12:43</span><span class="x"><span class="qt q">Is this about loyalty and retention over replacement?</span></span></button>
+<button class="row" style="--rc:#e11d48" data-t="1684"><span class="t">28:04</span><span class="x"><span class="qt q">Your growth last year was 3-4%. This year is looking like 1.5%. What does it need to be?</span></span></button>
+<button class="row" style="--rc:#e11d48" data-t="1700"><span class="t">28:20</span><span class="x"><span class="qt q">Why isn&#x27;t it moving toward that number faster?</span></span></button>
+</div></div>
+<div class="sec open" data-sec data-msg="pain-why" id="pain-why">
+<button class="sechead" style="background:linear-gradient(135deg,#ea580c,#f97316);box-shadow:0 8px 24px color-mix(in srgb,#ea580c 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Pain: Why It Matters</span></button>
+<div class="secbody">
+<button class="row" style="--rc:#ea580c" data-t="1547"><span class="t">25:47</span><span class="x"><span class="qt q">Whatever you&#x27;re going to do next, what is the ROI for that?</span></span></button>
+<button class="row" style="--rc:#ea580c" data-t="2005"><span class="t">33:25</span><span class="x"><span class="qt">Calculates the cost of sales underperformance.</span></span></button>
+</div></div>
+<div class="sec open" data-sec data-msg="pain-impact" id="pain-impact">
+<button class="sechead" style="background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 8px 24px color-mix(in srgb,#d97706 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Pain: Impact</span></button>
+<div class="secbody">
+<button class="row" style="--rc:#d97706" data-t="2221"><span class="t">37:01</span><span class="x"><span class="qt q">We can invest $36,000 into finding out what&#x27;s going on, or continue to lose $2.5 million.</span></span></button>
+</div></div>
+<div class="sec open" data-sec data-msg="pain-commitment" id="pain-commitment">
+<button class="sechead" style="background:linear-gradient(135deg,#db2777,#ec4899);box-shadow:0 8px 24px color-mix(in srgb,#db2777 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Pain: Commitment to Fixing It</span></button>
+<div class="secbody">
+<button class="row" style="--rc:#db2777" data-t="2156"><span class="t">35:56</span><span class="x"><span class="qt q">Does that feel like something that is…</span></span></button>
+<button class="row" style="--rc:#db2777" data-t="2680"><span class="t">44:40</span><span class="x"><span class="qt q">If this is important for Kyle and it was his idea…</span></span></button>
+<button class="row" style="--rc:#db2777" data-t="2884"><span class="t">48:04</span><span class="x"><span class="qt q">Are you all going to look at other tools?</span></span></button>
+</div></div>
+<div class="sec open" data-sec data-msg="decision-process" id="decision-process">
+<button class="sechead" style="background:linear-gradient(135deg,#2563eb,#3b82f6);box-shadow:0 8px 24px color-mix(in srgb,#2563eb 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Decision Process</span></button>
+<div class="secbody">
+<button class="row" style="--rc:#2563eb" data-t="2680"><span class="t">44:40</span><span class="x"><span class="qt">Asks about Kyle&#x27;s involvement and position.</span></span></button>
+<button class="row" style="--rc:#2563eb" data-t="2884"><span class="t">48:04</span><span class="x"><span class="qt">Asks whether they will evaluate other tools.</span></span></button>
+<button class="row" style="--rc:#2563eb" data-t="3035"><span class="t">50:35</span><span class="x"><span class="qt q">What would you like our next step to be?</span></span></button>
+<button class="row" style="--rc:#2563eb" data-t="3089"><span class="t">51:29</span><span class="x"><span class="qt q">What do you think Kyle will say when you tell him all that?</span></span></button>
+</div></div>
+<div class="sec open" data-sec data-msg="decision-criteria" id="decision-criteria">
+<button class="sechead" style="background:linear-gradient(135deg,#0891b2,#06b6d4);box-shadow:0 8px 24px color-mix(in srgb,#0891b2 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Decision Criteria</span></button>
+<div class="secbody">
+<button class="row" style="--rc:#0891b2" data-t="363"><span class="t">6:03</span><span class="x"><span class="qt">Explains how the assessment differs from behavioral assessments.</span></span></button>
+<button class="row" style="--rc:#0891b2" data-t="1547"><span class="t">25:47</span><span class="x"><span class="qt">Connects the decision to ROI and expected revenue growth.</span></span></button>
+<button class="row" style="--rc:#0891b2" data-t="2898"><span class="t">48:18</span><span class="x"><span class="qt">Explains why her company relies on the tool.</span></span></button>
+<button class="row" style="--rc:#0891b2" data-t="3000"><span class="t">50:00</span><span class="x"><span class="qt">Explains what the hiring assessment provides.</span></span></button>
+</div></div>
+<div class="sec open" data-sec data-msg="budget" id="budget">
+<button class="sechead" style="background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 8px 24px color-mix(in srgb,#059669 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Budget / Money Conversation</span></button>
+<div class="secbody">
+<button class="row" style="--rc:#059669" data-t="1883"><span class="t">31:23</span><span class="x"><span class="qt">Transitions into the financial numbers.</span></span></button>
+<button class="row" style="--rc:#059669" data-t="2005"><span class="t">33:25</span><span class="x"><span class="qt">Calculates the cost of underperformers.</span></span></button>
+<button class="row" style="--rc:#059669" data-t="2065"><span class="t">34:25</span><span class="x"><span class="qt">Introduces assessment pricing.</span></span></button>
+<button class="row" style="--rc:#059669" data-t="2076"><span class="t">34:36</span><span class="x"><span class="qt">Presents the per-person price.</span></span></button>
+<button class="row" style="--rc:#059669" data-t="2095"><span class="t">34:55</span><span class="x"><span class="qt">Presents the $36,300 total.</span></span></button>
+<button class="row" style="--rc:#059669" data-t="2125"><span class="t">35:25</span><span class="x"><span class="qt">Explains how headcount changes the price.</span></span></button>
+<button class="row" style="--rc:#059669" data-t="2156"><span class="t">35:56</span><span class="x"><span class="qt">Checks their reaction to the investment.</span></span></button>
+<button class="row" style="--rc:#059669" data-t="2221"><span class="t">37:01</span><span class="x"><span class="qt">Frames the investment against continued lost revenue.</span></span></button>
+</div></div>
+<div class="sec open" data-sec data-msg="next-step" id="next-step">
+<button class="sechead" style="background:linear-gradient(135deg,#7c3aed,#a855f7);box-shadow:0 8px 24px color-mix(in srgb,#7c3aed 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Clear Next Step</span></button>
+<div class="secbody">
+<button class="row" style="--rc:#7c3aed" data-t="3035"><span class="t">50:35</span><span class="x"><span class="qt q">What would you like our next step to be?</span></span></button>
+<button class="row" style="--rc:#7c3aed" data-t="3167"><span class="t">52:47</span><span class="x"><span class="qt">Confirms the five-bullet-point proposal format.</span></span></button>
+<button class="row" style="--rc:#7c3aed" data-t="3194"><span class="t">53:14</span><span class="x"><span class="qt">Offers to reserve a follow-up time.</span></span></button>
+<button class="row" style="--rc:#7c3aed" data-t="3267"><span class="t">54:27</span><span class="x"><span class="qt">Confirms Tuesday at noon.</span></span></button>
+</div></div>
+<div class="sec open" data-sec data-msg="ufc-next" id="ufc-next">
+<button class="sechead" style="background:linear-gradient(135deg,#475569,#64748b);box-shadow:0 8px 24px color-mix(in srgb,#475569 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Up-Front Contract for Next Meeting</span></button>
+<div class="secbody">
+<button class="row" style="--rc:#475569" data-t="3194"><span class="t">53:14</span><span class="x"><span class="qt">Explains that the meeting is a calendar hold, not pressure to accept.</span></span></button>
+<button class="row" style="--rc:#475569" data-t="3267"><span class="t">54:27</span><span class="x"><span class="qt">Agrees on Tuesday at noon.</span></span></button>
+</div></div>
+<div class="sec" data-sec style="margin-top:30px">
+<button class="sechead" style="background:var(--surface2);color:var(--text2);box-shadow:none;border:1px solid var(--line)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Why this call is worth the hour</span></button>
+<div class="secbody"><div class="note">This is the opening call of the only complete FTC-to-proposal arc she recorded. Start here.</div></div></div>
+</main>
+<script>
+var a=document.getElementById('a'), strip=document.getElementById('strip'),
+    ph=document.getElementById('ph'), el=document.getElementById('el'),
+    tm=document.getElementById('tm'), rows=[].slice.call(document.querySelectorAll('.row[data-t]'));
+var marks=rows.map(function(r){return {t:+r.dataset.t, c:getComputedStyle(r).getPropertyValue('--rc').trim()}});
+function fmt(s){s=Math.max(0,Math.floor(s));var m=Math.floor(s/60);return m+':'+String(s%60).padStart(2,'0')}
+function paint(){
+ var d=a.duration; if(!d||!isFinite(d))return;
+ strip.querySelectorAll('.mk').forEach(function(n){n.remove()});
+ marks.forEach(function(m){
+  var n=document.createElement('div'); n.className='mk';
+  n.style.left=(m.t/d*100)+'%'; n.style.background=m.c; strip.appendChild(n);
+ });
+}
+a.addEventListener('loadedmetadata',paint);
+a.addEventListener('timeupdate',function(){
+ var d=a.duration||1, p=a.currentTime/d*100;
+ ph.style.left=p+'%'; el.style.width=p+'%'; tm.textContent=fmt(a.currentTime);
+ var cur=null;
+ rows.forEach(function(r){ if(+r.dataset.t <= a.currentTime+0.3) cur=r; });
+ rows.forEach(function(r){ r.classList.toggle('now', r===cur); });
+});
+strip.addEventListener('click',function(ev){
+ var d=a.duration; if(!d)return;
+ var r=strip.getBoundingClientRect();
+ a.currentTime=Math.min(d,Math.max(0,(ev.clientX-r.left)/r.width*d));
+});
+function seek(t,play){ a.currentTime=t; if(play!==false){var p=a.play(); if(p&&p.catch)p.catch(function(){});} }
+rows.forEach(function(r){ r.addEventListener('click',function(){ seek(+r.dataset.t); }); });
+document.getElementById('b15').addEventListener('click',function(){seek(Math.max(0,a.currentTime-15),false)});
+document.getElementById('f15').addEventListener('click',function(){seek(a.currentTime+15,false)});
+var speeds=[1,1.25,1.5,1.75,2], si=0, sb=document.getElementById('spd');
+sb.addEventListener('click',function(){si=(si+1)%speeds.length;a.playbackRate=speeds[si];sb.textContent=speeds[si]+'x'});
+var F=new Set();
+document.querySelectorAll('[data-msf]').forEach(function(ch){
+ ch.addEventListener('click',function(){
+  var k=ch.dataset.msf;
+  if(F.has(k)){F.delete(k);ch.classList.remove('on')}else{F.add(k);ch.classList.add('on')}
+  document.querySelectorAll('.sec[data-msg]').forEach(function(s){
+   s.style.display=(F.size===0||F.has(s.dataset.msg))?'':'none';
+   if(F.has(s.dataset.msg)) s.classList.add('open');
+  });
+ });
+});
+document.getElementById('openall').addEventListener('click',function(){
+ document.querySelectorAll('.sec[data-msg]').forEach(function(s){s.classList.add('open')})});
+document.getElementById('closeall').addEventListener('click',function(){
+ document.querySelectorAll('.sec[data-msg]').forEach(function(s){s.classList.remove('open')})});
+function fromHash(){
+ var m=location.hash.match(/t=(\d+)/);
+ if(!m) return;
+ var t=+m[1];
+ var target=null;
+ rows.forEach(function(r){ if(+r.dataset.t===t) target=target||r; });
+ function go(){
+  seek(t);
+  if(target){ var s=target.closest('.sec'); if(s) s.classList.add('open');
+   setTimeout(function(){target.scrollIntoView({behavior:'smooth',block:'start'})},80); }
+ }
+ if(a.readyState>0) go(); else a.addEventListener('loadedmetadata',go,{once:true});
+}
+window.addEventListener('hashchange',fromHash); fromHash();
+</script>
+</body></html>
