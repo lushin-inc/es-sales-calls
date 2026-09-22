@@ -105,7 +105,8 @@ a.tile:hover{border-color:color-mix(in srgb,var(--tc) 45%,var(--line))}
 .tick{flex:none;width:30px;height:30px;border-radius:9px;border:2px solid var(--line);
  display:grid;place-items:center;color:transparent;margin-top:2px;transition:all .15s}
 .tick svg{width:16px;height:16px}
-.tick[aria-pressed="true"]{background:var(--tc,var(--text2));border-color:var(--tc,var(--text2));color:#fff}
+.tick[aria-pressed="true"],.tick[data-state="all"]{background:var(--tc,var(--text2));
+ border-color:var(--tc,var(--text2));color:#fff}
 .lrow{display:flex;gap:13px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);
  border-radius:16px;padding:16px 16px;margin-bottom:10px;position:relative;overflow:hidden;
  box-shadow:var(--shadow);transition:opacity .15s}
@@ -159,6 +160,28 @@ a.acct .tickmark{position:absolute;right:44px;top:17px;width:18px;height:18px;co
  border-radius:14px;padding:15px 17px;margin-top:18px}
 .met .k{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--text3)}
 .met .v{font-size:15px;color:var(--text);margin-top:6px;line-height:1.55}
+/* list table */
+.tbl{width:100%;border-collapse:collapse;margin-top:6px}
+.tbl th{text-align:left;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+ color:var(--text3);padding:0 0 10px;border-bottom:1px solid var(--line)}
+.tbl th.c1{width:44px}
+.tbl th.c3{width:46px}
+.tbl td{border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr{position:relative}
+.tbl .rk{font-size:14px;color:var(--text3);font-variant-numeric:tabular-nums;
+ padding:15px 0;width:44px}
+.tbl .nm{padding:15px 0}
+.tbl .nm a{display:block;font-size:16.5px;font-weight:600;letter-spacing:-.01em;min-height:24px}
+.tbl .nm a::after{content:"";position:absolute;inset:0;right:46px}
+.tbl tr:hover .nm a{color:var(--accent)}
+.tbl .tk{width:46px;text-align:right;padding:15px 0 15px 8px}
+.tbl .tk .tick{margin:0 0 0 auto;position:relative;z-index:2}
+.tbl tr.done .nm a{text-decoration:line-through;color:var(--text3)}
+.tbl tr.done .rk{opacity:.5}
+.tick .dotmark{width:8px;height:8px;border-radius:50%;background:var(--tc,var(--text2));display:none}
+.tick[data-state="part"]{border-color:var(--tc,var(--text2))}
+.tick[data-state="part"] svg{display:none}
+.tick[data-state="part"] .dotmark{display:block}
 .reset{margin-top:26px;font-size:13px;color:var(--text3);padding:10px 2px}
 .reset:hover{color:var(--text2)}
 .dots{display:flex;gap:5px;margin-top:9px}

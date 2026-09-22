@@ -105,7 +105,8 @@ a.tile:hover{border-color:color-mix(in srgb,var(--tc) 45%,var(--line))}
 .tick{flex:none;width:30px;height:30px;border-radius:9px;border:2px solid var(--line);
  display:grid;place-items:center;color:transparent;margin-top:2px;transition:all .15s}
 .tick svg{width:16px;height:16px}
-.tick[aria-pressed="true"]{background:var(--tc,var(--text2));border-color:var(--tc,var(--text2));color:#fff}
+.tick[aria-pressed="true"],.tick[data-state="all"]{background:var(--tc,var(--text2));
+ border-color:var(--tc,var(--text2));color:#fff}
 .lrow{display:flex;gap:13px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);
  border-radius:16px;padding:16px 16px;margin-bottom:10px;position:relative;overflow:hidden;
  box-shadow:var(--shadow);transition:opacity .15s}
@@ -159,6 +160,28 @@ a.acct .tickmark{position:absolute;right:44px;top:17px;width:18px;height:18px;co
  border-radius:14px;padding:15px 17px;margin-top:18px}
 .met .k{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--text3)}
 .met .v{font-size:15px;color:var(--text);margin-top:6px;line-height:1.55}
+/* list table */
+.tbl{width:100%;border-collapse:collapse;margin-top:6px}
+.tbl th{text-align:left;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+ color:var(--text3);padding:0 0 10px;border-bottom:1px solid var(--line)}
+.tbl th.c1{width:44px}
+.tbl th.c3{width:46px}
+.tbl td{border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr{position:relative}
+.tbl .rk{font-size:14px;color:var(--text3);font-variant-numeric:tabular-nums;
+ padding:15px 0;width:44px}
+.tbl .nm{padding:15px 0}
+.tbl .nm a{display:block;font-size:16.5px;font-weight:600;letter-spacing:-.01em;min-height:24px}
+.tbl .nm a::after{content:"";position:absolute;inset:0;right:46px}
+.tbl tr:hover .nm a{color:var(--accent)}
+.tbl .tk{width:46px;text-align:right;padding:15px 0 15px 8px}
+.tbl .tk .tick{margin:0 0 0 auto;position:relative;z-index:2}
+.tbl tr.done .nm a{text-decoration:line-through;color:var(--text3)}
+.tbl tr.done .rk{opacity:.5}
+.tick .dotmark{width:8px;height:8px;border-radius:50%;background:var(--tc,var(--text2));display:none}
+.tick[data-state="part"]{border-color:var(--tc,var(--text2))}
+.tick[data-state="part"] svg{display:none}
+.tick[data-state="part"] .dotmark{display:block}
 .reset{margin-top:26px;font-size:13px;color:var(--text3);padding:10px 2px}
 .reset:hover{color:var(--text2)}
 .dots{display:flex;gap:5px;margin-top:9px}
@@ -315,8 +338,8 @@ window.ESDone={
 <div class="soft">1 of 3</div>
 </div>
 <div class="player" id="player">
-<div class="vwrap"><iframe id="yt" title="Call recording" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture" src="https://www.youtube.com/embed/V5WbVmTZJPQ?enablejsapi=1&amp;playsinline=1&amp;rel=0&amp;modestbranding=1"></iframe></div>
-<div class="pctl"><button class="pbtn" id="b15"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5V2L7 6l5 4V7a6 6 0 1 1-6 6"/></svg>15</button><button class="pbtn" id="f15"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5V2l5 4-5 4V7a6 6 0 1 0 6 6"/></svg>15</button><button class="pbtn" id="spd">1x</button><a class="pbtn" id="yturl" href="https://youtu.be/V5WbVmTZJPQ" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg>YouTube</a><span class="ptime" id="tm">0:00</span></div>
+<div class="vwrap"><iframe id="yt" title="Call recording" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture" src="https://www.youtube.com/embed/dKxuPrUHdhU?enablejsapi=1&amp;playsinline=1&amp;rel=0&amp;modestbranding=1"></iframe></div>
+<div class="pctl"><button class="pbtn" id="b15"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5V2L7 6l5 4V7a6 6 0 1 1-6 6"/></svg>15</button><button class="pbtn" id="f15"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5V2l5 4-5 4V7a6 6 0 1 0 6 6"/></svg>15</button><button class="pbtn" id="spd">1x</button><a class="pbtn" id="yturl" href="https://youtu.be/dKxuPrUHdhU" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg>YouTube</a><span class="ptime" id="tm">0:00</span></div>
 <div class="strip" id="strip"><div class="el" id="el"></div><div class="ph" id="ph"></div></div>
 </div>
 <div class="chips" id="msf">
@@ -335,81 +358,81 @@ window.ESDone={
 <div class="sec open" data-sec data-msg="up-front-contract" id="up-front-contract">
 <button class="sechead" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);box-shadow:0 8px 24px color-mix(in srgb,#4f46e5 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Up-Front Contract</span></button>
 <div class="secbody">
-<button class="row" style="--rc:#4f46e5" data-t="71"><span class="t">1:11</span><span class="x"><span class="qt q">We&#x27;re on the calendar for 45 minutes. What&#x27;s most important for you guys to walk away with?</span></span></button>
+<button class="row" style="--rc:#4f46e5" data-t="64"><span class="t">1:04</span><span class="x"><span class="qt q">We&#x27;re on the calendar for 45 minutes. What&#x27;s most important for you guys to walk away with?</span></span></button>
 </div></div>
 <div class="sec open" data-sec data-msg="pain-problem" id="pain-problem">
 <button class="sechead" style="background:linear-gradient(135deg,#e11d48,#f43f5e);box-shadow:0 8px 24px color-mix(in srgb,#e11d48 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Pain: What&#x27;s the Problem</span></button>
 <div class="secbody">
-<button class="row" style="--rc:#e11d48" data-t="763"><span class="t">12:43</span><span class="x"><span class="qt q">Is this about loyalty and retention over replacement?</span></span></button>
-<button class="row" style="--rc:#e11d48" data-t="1684"><span class="t">28:04</span><span class="x"><span class="qt q">Your growth last year was 3-4%. This year is looking like 1.5%. What does it need to be?</span></span></button>
-<button class="row" style="--rc:#e11d48" data-t="1700"><span class="t">28:20</span><span class="x"><span class="qt q">Why isn&#x27;t it moving toward that number faster?</span></span></button>
+<button class="row" style="--rc:#e11d48" data-t="680"><span class="t">11:20</span><span class="x"><span class="qt q">Is this about loyalty and retention over replacement?</span></span></button>
+<button class="row" style="--rc:#e11d48" data-t="1490"><span class="t">24:50</span><span class="x"><span class="qt q">Your growth last year was 3-4%. This year is looking like 1.5%. What does it need to be?</span></span></button>
+<button class="row" style="--rc:#e11d48" data-t="1500"><span class="t">25:00</span><span class="x"><span class="qt q">Why isn&#x27;t it moving toward that number faster?</span></span></button>
 </div></div>
 <div class="sec open" data-sec data-msg="pain-why" id="pain-why">
 <button class="sechead" style="background:linear-gradient(135deg,#ea580c,#f97316);box-shadow:0 8px 24px color-mix(in srgb,#ea580c 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Pain: Why It Matters</span></button>
 <div class="secbody">
-<button class="row" style="--rc:#ea580c" data-t="1547"><span class="t">25:47</span><span class="x"><span class="qt q">Whatever you&#x27;re going to do next, what is the ROI for that?</span></span></button>
-<button class="row" style="--rc:#ea580c" data-t="2005"><span class="t">33:25</span><span class="x"><span class="qt">Calculates the cost of sales underperformance.</span></span></button>
+<button class="row" style="--rc:#ea580c" data-t="1381"><span class="t">23:01</span><span class="x"><span class="qt q">Whatever you&#x27;re going to do next, what is the ROI for that?</span></span></button>
+<button class="row" style="--rc:#ea580c" data-t="1780"><span class="t">29:40</span><span class="x"><span class="qt">Calculates the cost of sales underperformance.</span></span></button>
 </div></div>
 <div class="sec open" data-sec data-msg="pain-impact" id="pain-impact">
 <button class="sechead" style="background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 8px 24px color-mix(in srgb,#d97706 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Pain: Impact</span></button>
 <div class="secbody">
-<button class="row" style="--rc:#d97706" data-t="2221"><span class="t">37:01</span><span class="x"><span class="qt q">We can invest $36,000 into finding out what&#x27;s going on, or continue to lose $2.5 million.</span></span></button>
+<button class="row" style="--rc:#d97706" data-t="1960"><span class="t">32:40</span><span class="x"><span class="qt q">We can invest $36,000 into finding out what&#x27;s going on, or continue to lose $2.5 million.</span></span></button>
 </div></div>
 <div class="sec open" data-sec data-msg="pain-commitment" id="pain-commitment">
 <button class="sechead" style="background:linear-gradient(135deg,#db2777,#ec4899);box-shadow:0 8px 24px color-mix(in srgb,#db2777 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Pain: Commitment to Fixing It</span></button>
 <div class="secbody">
-<button class="row" style="--rc:#db2777" data-t="2156"><span class="t">35:56</span><span class="x"><span class="qt q">Does that feel like something that is…</span></span></button>
-<button class="row" style="--rc:#db2777" data-t="2680"><span class="t">44:40</span><span class="x"><span class="qt q">If this is important for Kyle and it was his idea…</span></span></button>
-<button class="row" style="--rc:#db2777" data-t="2884"><span class="t">48:04</span><span class="x"><span class="qt q">Are you all going to look at other tools?</span></span></button>
+<button class="row" style="--rc:#db2777" data-t="1898"><span class="t">31:38</span><span class="x"><span class="qt q">Does that feel like something that is…</span></span></button>
+<button class="row" style="--rc:#db2777" data-t="2375"><span class="t">39:35</span><span class="x"><span class="qt q">If this is important for Kyle and it was his idea…</span></span></button>
+<button class="row" style="--rc:#db2777" data-t="2553"><span class="t">42:33</span><span class="x"><span class="qt q">Are you all going to look at other tools?</span></span></button>
 </div></div>
 <div class="sec open" data-sec data-msg="decision-process" id="decision-process">
 <button class="sechead" style="background:linear-gradient(135deg,#2563eb,#3b82f6);box-shadow:0 8px 24px color-mix(in srgb,#2563eb 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Decision Process</span></button>
 <div class="secbody">
-<button class="row" style="--rc:#2563eb" data-t="2680"><span class="t">44:40</span><span class="x"><span class="qt">Asks about Kyle&#x27;s involvement and position.</span></span></button>
-<button class="row" style="--rc:#2563eb" data-t="2884"><span class="t">48:04</span><span class="x"><span class="qt">Asks whether they will evaluate other tools.</span></span></button>
-<button class="row" style="--rc:#2563eb" data-t="3035"><span class="t">50:35</span><span class="x"><span class="qt q">What would you like our next step to be?</span></span></button>
-<button class="row" style="--rc:#2563eb" data-t="3089"><span class="t">51:29</span><span class="x"><span class="qt q">What do you think Kyle will say when you tell him all that?</span></span></button>
+<button class="row" style="--rc:#2563eb" data-t="2375"><span class="t">39:35</span><span class="x"><span class="qt">Asks about Kyle&#x27;s involvement and position.</span></span></button>
+<button class="row" style="--rc:#2563eb" data-t="2553"><span class="t">42:33</span><span class="x"><span class="qt">Asks whether they will evaluate other tools.</span></span></button>
+<button class="row" style="--rc:#2563eb" data-t="2685"><span class="t">44:45</span><span class="x"><span class="qt q">What would you like our next step to be?</span></span></button>
+<button class="row" style="--rc:#2563eb" data-t="2732"><span class="t">45:32</span><span class="x"><span class="qt q">What do you think Kyle will say when you tell him all that?</span></span></button>
 </div></div>
 <div class="sec open" data-sec data-msg="decision-criteria" id="decision-criteria">
 <button class="sechead" style="background:linear-gradient(135deg,#0891b2,#06b6d4);box-shadow:0 8px 24px color-mix(in srgb,#0891b2 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Decision Criteria</span></button>
 <div class="secbody">
-<button class="row" style="--rc:#0891b2" data-t="363"><span class="t">6:03</span><span class="x"><span class="qt">Explains how the assessment differs from behavioral assessments.</span></span></button>
-<button class="row" style="--rc:#0891b2" data-t="1547"><span class="t">25:47</span><span class="x"><span class="qt">Connects the decision to ROI and expected revenue growth.</span></span></button>
-<button class="row" style="--rc:#0891b2" data-t="2898"><span class="t">48:18</span><span class="x"><span class="qt">Explains why her company relies on the tool.</span></span></button>
-<button class="row" style="--rc:#0891b2" data-t="3000"><span class="t">50:00</span><span class="x"><span class="qt">Explains what the hiring assessment provides.</span></span></button>
+<button class="row" style="--rc:#0891b2" data-t="350"><span class="t">5:50</span><span class="x"><span class="qt">Explains how the assessment differs from behavioral assessments.</span></span></button>
+<button class="row" style="--rc:#0891b2" data-t="1381"><span class="t">23:01</span><span class="x"><span class="qt">Connects the decision to ROI and expected revenue growth.</span></span></button>
+<button class="row" style="--rc:#0891b2" data-t="2571"><span class="t">42:51</span><span class="x"><span class="qt">Explains why her company relies on the tool.</span></span></button>
+<button class="row" style="--rc:#0891b2" data-t="2652"><span class="t">44:12</span><span class="x"><span class="qt">Explains what the hiring assessment provides.</span></span></button>
 </div></div>
 <div class="sec open" data-sec data-msg="budget" id="budget">
 <button class="sechead" style="background:linear-gradient(135deg,#059669,#10b981);box-shadow:0 8px 24px color-mix(in srgb,#059669 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Budget / Money Conversation</span></button>
 <div class="secbody">
-<button class="row" style="--rc:#059669" data-t="1883"><span class="t">31:23</span><span class="x"><span class="qt">Transitions into the financial numbers.</span></span></button>
-<button class="row" style="--rc:#059669" data-t="2005"><span class="t">33:25</span><span class="x"><span class="qt">Calculates the cost of underperformers.</span></span></button>
-<button class="row" style="--rc:#059669" data-t="2065"><span class="t">34:25</span><span class="x"><span class="qt">Introduces assessment pricing.</span></span></button>
-<button class="row" style="--rc:#059669" data-t="2076"><span class="t">34:36</span><span class="x"><span class="qt">Presents the per-person price.</span></span></button>
-<button class="row" style="--rc:#059669" data-t="2095"><span class="t">34:55</span><span class="x"><span class="qt">Presents the $36,300 total.</span></span></button>
-<button class="row" style="--rc:#059669" data-t="2125"><span class="t">35:25</span><span class="x"><span class="qt">Explains how headcount changes the price.</span></span></button>
-<button class="row" style="--rc:#059669" data-t="2156"><span class="t">35:56</span><span class="x"><span class="qt">Checks their reaction to the investment.</span></span></button>
-<button class="row" style="--rc:#059669" data-t="2221"><span class="t">37:01</span><span class="x"><span class="qt">Frames the investment against continued lost revenue.</span></span></button>
+<button class="row" style="--rc:#059669" data-t="1670"><span class="t">27:50</span><span class="x"><span class="qt">Transitions into the financial numbers.</span></span></button>
+<button class="row" style="--rc:#059669" data-t="1780"><span class="t">29:40</span><span class="x"><span class="qt">Calculates the cost of underperformers.</span></span></button>
+<button class="row" style="--rc:#059669" data-t="1800"><span class="t">30:00</span><span class="x"><span class="qt">Introduces assessment pricing.</span></span></button>
+<button class="row" style="--rc:#059669" data-t="1830"><span class="t">30:30</span><span class="x"><span class="qt">Presents the per-person price.</span></span></button>
+<button class="row" style="--rc:#059669" data-t="1840"><span class="t">30:40</span><span class="x"><span class="qt">Presents the $36,300 total.</span></span></button>
+<button class="row" style="--rc:#059669" data-t="1868"><span class="t">31:08</span><span class="x"><span class="qt">Explains how headcount changes the price.</span></span></button>
+<button class="row" style="--rc:#059669" data-t="1898"><span class="t">31:38</span><span class="x"><span class="qt">Checks their reaction to the investment.</span></span></button>
+<button class="row" style="--rc:#059669" data-t="1960"><span class="t">32:40</span><span class="x"><span class="qt">Frames the investment against continued lost revenue.</span></span></button>
 </div></div>
 <div class="sec open" data-sec data-msg="next-step" id="next-step">
 <button class="sechead" style="background:linear-gradient(135deg,#7c3aed,#a855f7);box-shadow:0 8px 24px color-mix(in srgb,#7c3aed 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Clear Next Step</span></button>
 <div class="secbody">
-<button class="row" style="--rc:#7c3aed" data-t="3035"><span class="t">50:35</span><span class="x"><span class="qt q">What would you like our next step to be?</span></span></button>
-<button class="row" style="--rc:#7c3aed" data-t="3167"><span class="t">52:47</span><span class="x"><span class="qt">Confirms the five-bullet-point proposal format.</span></span></button>
-<button class="row" style="--rc:#7c3aed" data-t="3194"><span class="t">53:14</span><span class="x"><span class="qt">Offers to reserve a follow-up time.</span></span></button>
-<button class="row" style="--rc:#7c3aed" data-t="3267"><span class="t">54:27</span><span class="x"><span class="qt">Confirms Tuesday at noon.</span></span></button>
+<button class="row" style="--rc:#7c3aed" data-t="2685"><span class="t">44:45</span><span class="x"><span class="qt q">What would you like our next step to be?</span></span></button>
+<button class="row" style="--rc:#7c3aed" data-t="2800"><span class="t">46:40</span><span class="x"><span class="qt">Confirms the five-bullet-point proposal format.</span></span></button>
+<button class="row" style="--rc:#7c3aed" data-t="2840"><span class="t">47:20</span><span class="x"><span class="qt">Offers to reserve a follow-up time.</span></span></button>
+<button class="row" style="--rc:#7c3aed" data-t="2890"><span class="t">48:10</span><span class="x"><span class="qt">Confirms Tuesday at noon.</span></span></button>
 </div></div>
 <div class="sec open" data-sec data-msg="ufc-next" id="ufc-next">
 <button class="sechead" style="background:linear-gradient(135deg,#475569,#64748b);box-shadow:0 8px 24px color-mix(in srgb,#475569 26%,transparent)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Up-Front Contract for Next Meeting</span></button>
 <div class="secbody">
-<button class="row" style="--rc:#475569" data-t="3194"><span class="t">53:14</span><span class="x"><span class="qt">Explains that the meeting is a calendar hold, not pressure to accept.</span></span></button>
-<button class="row" style="--rc:#475569" data-t="3267"><span class="t">54:27</span><span class="x"><span class="qt">Agrees on Tuesday at noon.</span></span></button>
+<button class="row" style="--rc:#475569" data-t="2840"><span class="t">47:20</span><span class="x"><span class="qt">Explains that the meeting is a calendar hold, not pressure to accept.</span></span></button>
+<button class="row" style="--rc:#475569" data-t="2890"><span class="t">48:10</span><span class="x"><span class="qt">Agrees on Tuesday at noon.</span></span></button>
 </div></div>
 <div class="sec" data-sec style="margin-top:30px">
 <button class="sechead" style="background:var(--surface2);color:var(--text2);box-shadow:none;border:1px solid var(--line)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg><span class="lab">Why this call is worth the hour</span></button>
 <div class="secbody"><div class="note">This is the opening call of the only complete FTC-to-proposal arc she recorded. Start here.</div></div></div>
 </main>
 <script>
-var VIDEO_ID="V5WbVmTZJPQ";
+var VIDEO_ID="dKxuPrUHdhU";
 var player=null, ready=false, tick=null, pendingSeek=null;
 var strip=document.getElementById('strip'), ph=document.getElementById('ph'),
     el=document.getElementById('el'), tm=document.getElementById('tm'),
