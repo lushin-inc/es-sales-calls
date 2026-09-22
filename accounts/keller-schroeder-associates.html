@@ -122,6 +122,43 @@ a.acct.done{opacity:.45;box-shadow:none}
 a.acct.done .co{text-decoration:line-through}
 a.acct .tickmark{position:absolute;right:44px;top:17px;width:18px;height:18px;color:var(--tc)}
 .dots i.off{background:transparent;box-shadow:inset 0 0 0 1.5px var(--dc)}
+/* how she met them */
+.ochip{flex:none;white-space:nowrap;padding:9px 15px;border-radius:999px;font-size:14px;font-weight:500;
+ color:var(--text2);background:var(--surface);border:1px solid var(--line);min-height:40px;display:flex;align-items:center}
+.ochip[aria-selected="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
+.oitem{border-bottom:1px solid var(--line)}
+.oitem>button{width:100%;text-align:left;padding:16px 2px;display:flex;gap:13px;align-items:flex-start;
+ background:none;border:0;cursor:pointer;color:inherit;font:inherit}
+.oitem .bar{width:3px;align-self:stretch;border-radius:2px;background:var(--c,var(--text3));flex:none;min-height:36px}
+.oitem .main{flex:1;min-width:0}
+.oitem .nm{display:block;font-size:16.5px;font-weight:600;letter-spacing:-.01em}
+.oitem .nm .won{display:inline-flex;color:var(--accent);margin-left:7px;vertical-align:-2px}
+.oitem .nm .won svg{width:14px;height:14px;display:block}
+.oitem .hw{display:block;font-size:14.5px;color:var(--text2);margin-top:4px;line-height:1.5}
+.oitem .ch{display:block;font-size:12px;color:var(--text3);margin-top:7px}
+.oitem .car{flex:none;color:var(--text3);width:16px;height:16px;margin-top:4px;transition:transform .18s}
+.oitem.open .car{transform:rotate(90deg)}
+.omore{display:none;padding:0 2px 18px 19px}
+.oitem.open .omore{display:block}
+.oq{font-size:14.5px;line-height:1.6;color:var(--text2);font-style:italic;
+ border-left:2px solid var(--line);padding-left:14px}
+.osrc{font-size:12px;color:var(--text3);margin-top:10px}
+.ogo{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--accent);
+ margin-top:13px;padding:9px 0}
+.ogo svg{width:15px;height:15px}
+.orow{display:flex;align-items:baseline;gap:12px;padding:14px 2px;border-bottom:1px solid var(--line)}
+.orow .lab{flex:1;min-width:0;font-size:15.5px;font-weight:500}
+.orow .num{font-size:15px;color:var(--text2);min-width:26px;text-align:right;
+ font-variant-numeric:tabular-nums}
+.orow .pct{font-size:13px;color:var(--text3);min-width:42px;text-align:right;
+ font-variant-numeric:tabular-nums}
+.otrack{height:3px;border-radius:2px;background:var(--surface2);margin:0 2px 2px}
+.otrack i{display:block;height:100%;border-radius:2px;background:var(--c,var(--accent));opacity:.9}
+.osub{display:block;font-size:13.5px;color:var(--text2);margin-top:3px;font-weight:400}
+.met{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--c,var(--accent));
+ border-radius:14px;padding:15px 17px;margin-top:18px}
+.met .k{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--text3)}
+.met .v{font-size:15px;color:var(--text);margin-top:6px;line-height:1.55}
 .reset{margin-top:26px;font-size:13px;color:var(--text3);padding:10px 2px}
 .reset:hover{color:var(--text2)}
 .dots{display:flex;gap:5px;margin-top:9px}
@@ -251,6 +288,8 @@ window.ESDone={
  <h4>Library</h4>
 <a class="navlink" href="../index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>All calls</a>
 <a class="navlink" href="../index.html#accounts"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V6l7-3 7 3v15"/><path d="M10 21v-5h4v5"/></svg>Accounts</a>
+<a class="navlink" href="../index.html#list"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6l1.2 1.2L6.5 5"/><path d="M3 12l1.2 1.2L6.5 11"/><path d="M3 18l1.2 1.2L6.5 17"/></svg>List</a>
+<a class="navlink" href="../index.html#origins"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>How She Met Them</a>
 <a class="navlink" href="../index.html#milestones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>Milestones</a>
 <h4>This account</h4>
 <a class="navlink" href="../calls/keller-schroeder-associates-2024-10-18.html"><span class="navdot" style="background:#4f46e5"></span>First Call</a>
@@ -262,6 +301,7 @@ window.ESDone={
 </header>
 <main class="wrap">
 <div class="eyebrow">Emily</div><h1>Keller Schroeder &amp; Associates</h1>
+<div class="met" style="--c:#6b7280"><div class="k">How Emily met them</div><div class="v">Not stated. This is a candidate coaching call, not a sales call.</div></div>
 <div id="rows" style="margin-top:18px">
 <div class="lrow" data-k="keller-schroeder-associates-2024-10-18" style="--tc:#4f46e5"><button class="tick" aria-pressed="false" aria-label="Mark watched"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></button><a class="lmain" href="../calls/keller-schroeder-associates-2024-10-18.html"><span class="co">First Call</span><span class="who">Jim Keller</span><span class="dt">2024-10-18</span><span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></a></div>
 </div>
